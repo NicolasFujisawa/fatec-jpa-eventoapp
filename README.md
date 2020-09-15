@@ -2,6 +2,8 @@
 
 ## Participantes
 
-Marcos Paulo
-Jason Davin
-Nicolas Fernando
+- Marcos Paulo
+
+- Nicolas Fernando
+
+- Jason Davin
