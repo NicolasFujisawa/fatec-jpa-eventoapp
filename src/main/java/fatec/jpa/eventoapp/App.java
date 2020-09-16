@@ -3,7 +3,11 @@
  */
 package fatec.jpa.eventoapp;
 
+import fatec.jpa.eventoapp.dto.UserDaoJpa;
+import fatec.jpa.eventoapp.entity.PersistenceManager;
 import org.flywaydb.core.Flyway;
+
+import javax.persistence.EntityManager;
 
 public class App {
     public String getGreeting() {
@@ -19,5 +23,11 @@ public class App {
 
         flyway.migrate();
         System.out.println(new App().getGreeting());
+
+
+        EntityManager manager = PersistenceManager.getInstance().getEntityManager();
+        UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
+
+        userDaoJpa.create("jabinho");
     }
 }

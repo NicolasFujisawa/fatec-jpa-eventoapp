@@ -15,7 +15,7 @@ public class Notice {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "event_id")
     private Event event;
 }

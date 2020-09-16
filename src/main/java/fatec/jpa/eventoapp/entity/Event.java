@@ -17,9 +17,9 @@ public class Event {
     @Column(name = "date")
     private Date date;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
     private List<User> participants;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event_date")
+//
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event_date")
     private List<Notice> notices;
 }
