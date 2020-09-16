@@ -20,6 +20,6 @@ public class Event {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
     private List<User> participants;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event_date")
     private List<Notice> notices;
 }
