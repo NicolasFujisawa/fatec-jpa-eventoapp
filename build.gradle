@@ -31,7 +31,7 @@ dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
     implementation 'org.hibernate:hibernate-core:5.4.21.Final'
-
+    implementation 'org.flywaydb:flyway-core:6.5.5'
     implementation 'mysql:mysql-connector-java:8.0.21'
 
     compileOnly 'org.projectlombok:lombok:1.18.12'
