@@ -4,6 +4,7 @@
 package fatec.jpa.eventoapp;
 
 import fatec.jpa.eventoapp.dao.EventDaoJpa;
+import fatec.jpa.eventoapp.dao.NoticeDaoJpa;
 import fatec.jpa.eventoapp.dao.UserDaoJpa;
 import fatec.jpa.eventoapp.entity.Event;
 import fatec.jpa.eventoapp.entity.PersistenceManager;
@@ -25,19 +26,15 @@ public class App {
                 .load();
 
         flyway.migrate();
-        System.out.println(new App().getGreeting());
-
 
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
         userDaoJpa.create("jabinho");
 
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        eventDaoJpa.save(
-                Event.builder()
-                .name("Meu evento")
-                .eventDate(new Date(System.currentTimeMillis()))
-                .build()
-        );
+        Event event = eventDaoJpa.create("Primeiro evento", new Date(System.currentTimeMillis()));
+
+        NoticeDaoJpa noticeDaoJpa = new NoticeDaoJpa(manager);
+        noticeDaoJpa.create("Primeiro aviso", "Algum aviso", event);
     }
 }
