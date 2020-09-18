@@ -1,10 +1,18 @@
 package fatec.jpa.eventoapp.entity;
 
+import fatec.jpa.eventoapp.dao.BaseEntity;
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "notices")
-public class Notice {
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Notice extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_id")
