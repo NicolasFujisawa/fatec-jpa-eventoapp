@@ -24,9 +24,9 @@ public class User {
     @Column(name = "username")
     private String name;
 
-//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
-//    @JoinTable(name = "event_participants",
-//            joinColumns = {@JoinColumn(name = "event_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "user_id")})
-//    private List<Event> events;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "event_participants",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "event_id")})
+    private List<Event> events;
 }

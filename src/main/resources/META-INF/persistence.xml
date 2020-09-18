@@ -8,6 +8,8 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
         <class>fatec.jpa.eventoapp.entity.User</class>
+        <class>fatec.jpa.eventoapp.entity.Event</class>
+        <class>fatec.jpa.eventoapp.entity.Notice</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver"
