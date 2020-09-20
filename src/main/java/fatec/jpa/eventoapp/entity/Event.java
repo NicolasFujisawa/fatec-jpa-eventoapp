@@ -15,11 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @AttributeOverride(name = "id",column = @Column(name = "event_id"))
 public class Event extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
-    private Integer id;
-
     @Column(name = "name")
     private String name;
 
