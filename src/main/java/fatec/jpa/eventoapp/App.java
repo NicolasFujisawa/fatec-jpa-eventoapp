@@ -13,7 +13,6 @@ import fatec.jpa.eventoapp.entity.User;
 import org.flywaydb.core.Flyway;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class App {
         user.setEvents(eventList);
         userDaoJpa.save(user);
 
-        List<Notice> notices = userDaoJpa.getNoticesFromUserEvents(user);
+        List<Notice> notices = userDaoJpa.getNoticesFromFutureUserEvents(user);
         for(Notice notice: notices) System.out.printf(notice.toString());
     }
 }
