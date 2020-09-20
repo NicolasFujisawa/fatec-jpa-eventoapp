@@ -1,12 +1,20 @@
 package fatec.jpa.eventoapp.entity;
 
+import fatec.jpa.eventoapp.dao.BaseEntity;
+import lombok.*;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "events")
-public class Event {
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Event extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
@@ -20,7 +28,7 @@ public class Event {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
     private List<User> participants;
-//
+    //
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
     private List<Notice> notices;
 }

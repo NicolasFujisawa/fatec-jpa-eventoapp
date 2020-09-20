@@ -1,9 +1,7 @@
 package fatec.jpa.eventoapp.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import fatec.jpa.eventoapp.dao.BaseEntity;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,11 +9,11 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
