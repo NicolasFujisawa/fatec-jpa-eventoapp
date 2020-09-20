@@ -7,11 +7,16 @@ import fatec.jpa.eventoapp.dao.EventDaoJpa;
 import fatec.jpa.eventoapp.dao.NoticeDaoJpa;
 import fatec.jpa.eventoapp.dao.UserDaoJpa;
 import fatec.jpa.eventoapp.entity.Event;
+import fatec.jpa.eventoapp.entity.Notice;
 import fatec.jpa.eventoapp.entity.PersistenceManager;
+import fatec.jpa.eventoapp.entity.User;
 import org.flywaydb.core.Flyway;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
     public String getGreeting() {
@@ -29,12 +34,35 @@ public class App {
 
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
-        userDaoJpa.create("jabinho");
+        User user = userDaoJpa.create("jabinho");
 
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
         Event event = eventDaoJpa.create("Primeiro evento", new Date(System.currentTimeMillis()));
 
         NoticeDaoJpa noticeDaoJpa = new NoticeDaoJpa(manager);
         noticeDaoJpa.create("Primeiro aviso", "Algum aviso", event);
+
+        List<Event> eventList = new ArrayList<>();
+        eventList.add(event);
+
+        user.setEvents(eventList);
+        userDaoJpa.save(user);
+
+        String queryText = "select ntc from User usr\n" +
+                "join usr.events eve\n" +
+                "join eve.notices ntc\n" +
+                "where usr = :user";
+
+        Query query = manager.createQuery(queryText);
+        query.setParameter("user", user);
+
+        @SuppressWarnings("unchecked")
+        List<Notice> notices = query.getResultList();
+
+        for(Notice notice: notices) {
+            System.out.println("Event: " + notice.getEvent().getName() +
+                    "\nTitle: " + notice.getTitle() +
+                    "\nDescription: " +notice.getDescription());
+        }
     }
 }
