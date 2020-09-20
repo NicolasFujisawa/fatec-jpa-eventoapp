@@ -1,6 +1,5 @@
 package fatec.jpa.eventoapp.entity;
 
-import fatec.jpa.eventoapp.dao.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,6 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@AttributeOverride(name = "id",column = @Column(name = "event_id"))
 public class Event extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
