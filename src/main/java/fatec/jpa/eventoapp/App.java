@@ -48,21 +48,7 @@ public class App {
         user.setEvents(eventList);
         userDaoJpa.save(user);
 
-        String queryText = "select ntc from User usr\n" +
-                "join usr.events eve\n" +
-                "join eve.notices ntc\n" +
-                "where usr = :user";
-
-        Query query = manager.createQuery(queryText);
-        query.setParameter("user", user);
-
-        @SuppressWarnings("unchecked")
-        List<Notice> notices = query.getResultList();
-
-        for(Notice notice: notices) {
-            System.out.println("Event: " + notice.getEvent().getName() +
-                    "\nTitle: " + notice.getTitle() +
-                    "\nDescription: " +notice.getDescription());
-        }
+        List<Notice> notices = userDaoJpa.getNoticesFromUserEvents(user);
+        for(Notice notice: notices) System.out.printf(notice.toString());
     }
 }
