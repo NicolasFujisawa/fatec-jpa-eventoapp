@@ -10,6 +10,8 @@
         <class>fatec.jpa.eventoapp.entity.User</class>
         <class>fatec.jpa.eventoapp.entity.Event</class>
         <class>fatec.jpa.eventoapp.entity.Notice</class>
+        <class>fatec.jpa.eventoapp.entity.PublicEvent</class>
+        <class>fatec.jpa.eventoapp.entity.PrivateEvent</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver"

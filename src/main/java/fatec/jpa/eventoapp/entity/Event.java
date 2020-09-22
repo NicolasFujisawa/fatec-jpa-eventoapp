@@ -13,7 +13,11 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@AttributeOverride(name = "id",column = @Column(name = "event_id"))
+@AttributeOverride(name = "id", column = @Column(name = "event_id"))
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name = "event_type",
+        discriminatorType = DiscriminatorType.INTEGER)
 public class Event extends BaseEntity {
     @Column(name = "name")
     private String name;
@@ -23,7 +27,7 @@ public class Event extends BaseEntity {
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "events")
     private List<User> participants;
-    //
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
     private List<Notice> notices;
 }

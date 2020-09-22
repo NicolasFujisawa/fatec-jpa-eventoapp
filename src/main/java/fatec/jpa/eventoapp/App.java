@@ -6,10 +6,7 @@ package fatec.jpa.eventoapp;
 import fatec.jpa.eventoapp.dao.EventDaoJpa;
 import fatec.jpa.eventoapp.dao.NoticeDaoJpa;
 import fatec.jpa.eventoapp.dao.UserDaoJpa;
-import fatec.jpa.eventoapp.entity.Event;
-import fatec.jpa.eventoapp.entity.Notice;
-import fatec.jpa.eventoapp.entity.PersistenceManager;
-import fatec.jpa.eventoapp.entity.User;
+import fatec.jpa.eventoapp.entity.*;
 import org.flywaydb.core.Flyway;
 
 import javax.persistence.EntityManager;
@@ -29,6 +26,7 @@ public class App {
                 .locations("classpath:db/migration")
                 .load();
 
+        flyway.clean();
         flyway.migrate();
 
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
@@ -36,18 +34,21 @@ public class App {
         User user = userDaoJpa.create("jabinho");
 
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        Event event = eventDaoJpa.create("Primeiro evento", new Date(System.currentTimeMillis()));
+
+        PrivateEvent privateEvent = (PrivateEvent) eventDaoJpa.create(new PrivateEvent(), "Privado", new Date(System.currentTimeMillis()));
+        PublicEvent publicEvent = (PublicEvent) eventDaoJpa.create(new PublicEvent(), "Publico", new Date(System.currentTimeMillis()));
 
         NoticeDaoJpa noticeDaoJpa = new NoticeDaoJpa(manager);
-        noticeDaoJpa.create("Primeiro aviso", "Algum aviso", event);
+        noticeDaoJpa.create("Primeiro aviso", "Algum aviso", publicEvent);
 
         List<Event> eventList = new ArrayList<>();
-        eventList.add(event);
+        eventList.add(publicEvent);
+        eventList.add(privateEvent);
 
         user.setEvents(eventList);
         userDaoJpa.save(user);
 
         List<Notice> notices = userDaoJpa.getNoticesFromFutureUserEvents(user);
-        for(Notice notice: notices) System.out.printf(notice.toString());
+        for (Notice notice : notices) System.out.printf(notice.toString());
     }
 }
