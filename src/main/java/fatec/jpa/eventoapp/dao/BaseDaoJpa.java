@@ -1,5 +1,6 @@
 package fatec.jpa.eventoapp.dao;
 
+import fatec.jpa.eventoapp.entity.BaseEntity;
 import fatec.jpa.eventoapp.entity.PersistenceManager;
 
 import javax.persistence.EntityManager;
