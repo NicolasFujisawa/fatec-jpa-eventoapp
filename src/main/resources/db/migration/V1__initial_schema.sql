@@ -8,6 +8,7 @@ create table events (
     event_id integer(11) auto_increment primary key,
     name varchar(255) not null,
     event_date datetime not null,
+    event_type integer(1) not null,
     created_at datetime DEFAULT CURRENT_TIMESTAMP
 );
 
