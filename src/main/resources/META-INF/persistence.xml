@@ -9,6 +9,7 @@
 
         <class>fatec.jpa.eventoapp.entity.User</class>
         <class>fatec.jpa.eventoapp.entity.Event</class>
+        <class>fatec.jpa.eventoapp.entity.Moderator</class>
         <class>fatec.jpa.eventoapp.entity.Notice</class>
         <class>fatec.jpa.eventoapp.entity.PublicEvent</class>
         <class>fatec.jpa.eventoapp.entity.PrivateEvent</class>

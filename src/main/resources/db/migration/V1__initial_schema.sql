@@ -31,3 +31,10 @@ create table event_participants (
 
 alter table event_participants add constraint fk_event_participant_event foreign key (event_id) references events (event_id);
 alter table event_participants add constraint fk_event_participant_user foreign key (user_id) references users (user_id);
+
+create table moderators (
+    mod_id integer(11) auto_increment primary key,
+    user_id integer(11) not null,
+    mod_level integer(2) not null,
+    created_at datetime DEFAULT CURRENT_TIMESTAMP
+);

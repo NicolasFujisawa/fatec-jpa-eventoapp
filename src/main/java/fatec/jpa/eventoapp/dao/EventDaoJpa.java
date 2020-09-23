@@ -16,15 +16,6 @@ public class EventDaoJpa extends BaseDaoJpa<Event> implements BaseDao<Event> {
         super(em);
     }
 
-    public Event create(String name, Date eventDate) {
-        Event event = Event.builder()
-                .name(name)
-                .eventDate(eventDate)
-                .build();
-
-        return save(event);
-    }
-
     public Event create(Event event, String name, Date eventDate) {
         event.setName(name);
         event.setEventDate(eventDate);
