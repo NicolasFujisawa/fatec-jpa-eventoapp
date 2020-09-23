@@ -7,6 +7,7 @@ import fatec.jpa.eventoapp.dao.EventDaoJpa;
 import fatec.jpa.eventoapp.dao.NoticeDaoJpa;
 import fatec.jpa.eventoapp.dao.UserDaoJpa;
 import fatec.jpa.eventoapp.entity.*;
+import fatec.jpa.eventoapp.enums.ModeratorLevelEnum;
 import org.flywaydb.core.Flyway;
 
 import javax.persistence.EntityManager;
@@ -47,6 +48,8 @@ public class App {
 
         user.setEvents(eventList);
         userDaoJpa.save(user);
+
+        userDaoJpa.create("Juquinha", ModeratorLevelEnum.NEWBA);
 
         List<Notice> notices = userDaoJpa.getNoticesFromFutureUserEvents(user);
         for (Notice notice : notices) System.out.printf(notice.toString());

@@ -1,7 +1,10 @@
 package fatec.jpa.eventoapp.dao;
 
+import fatec.jpa.eventoapp.entity.Moderator;
 import fatec.jpa.eventoapp.entity.Notice;
 import fatec.jpa.eventoapp.entity.User;
+import fatec.jpa.eventoapp.enums.ModeratorLevelEnum;
+import org.dom4j.rule.Mode;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -22,6 +25,13 @@ public class UserDaoJpa extends BaseDaoJpa<User> implements BaseDao<User> {
                 .name(username)
                 .build();
         return save(user);
+    }
+
+    public Moderator create(String username, ModeratorLevelEnum level) {
+        Moderator mod = new Moderator();
+        mod.setName(username);
+        mod.setLevel(level);
+        return (Moderator) save(mod);
     }
 
     public List<Notice> getNoticesFromFutureUserEvents(User user) {
