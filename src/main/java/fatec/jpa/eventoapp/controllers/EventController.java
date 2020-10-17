@@ -26,14 +26,17 @@ public class EventController extends HttpServlet {
 
         ObjectMapper objectMapper = new ObjectMapper();
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        Event event = eventDaoJpa.buscar(Integer.parseInt(idParam));
+        Event event = eventDaoJpa.findById(Integer.parseInt(idParam));
 
         if (event == null) throw new NotFoundException("Event not found");
 
         String result = objectMapper.writeValueAsString(event);
-        res.setStatus(200);
+        statusAndSend(200, res, result);
+    }
 
-        res.getWriter().print(result);
+    private void statusAndSend(Integer status, HttpServletResponse res, String data) throws IOException {
+        res.setStatus(200);
+        res.getWriter().print(data);
         res.getWriter().flush();
     }
 }

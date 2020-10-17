@@ -38,6 +38,10 @@ public class ExceptionHandlerFilter implements Filter {
             GenericErrorResponse genericErrorResponse = new GenericErrorResponse("BAD_REQUEST", e.getMessage());
             message = objectMapper.writeValueAsString(genericErrorResponse);
             res.setStatus(400);
+        } catch (Exception e) {
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse("INTERNAL_SERVER_ERROR", e.getMessage());
+            message = objectMapper.writeValueAsString(genericErrorResponse);
+            res.setStatus(500);
         } finally {
             res.getWriter().print(message);
         }

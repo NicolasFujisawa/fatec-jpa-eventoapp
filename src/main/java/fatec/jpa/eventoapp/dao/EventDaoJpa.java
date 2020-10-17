@@ -1,8 +1,6 @@
 package fatec.jpa.eventoapp.dao;
 
 import fatec.jpa.eventoapp.entity.Event;
-import fatec.jpa.eventoapp.entity.PrivateEvent;
-import fatec.jpa.eventoapp.entity.PublicEvent;
 
 import javax.persistence.EntityManager;
 import java.sql.Date;
@@ -22,7 +20,7 @@ public class EventDaoJpa extends BaseDaoJpa<Event> implements BaseDao<Event> {
         return save(event);
     }
 
-    public Event buscar(Integer id) {
+    public Event findById(Integer id) {
         return this.em.find(Event.class, id);
     }
 }
