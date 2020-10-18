@@ -3,6 +3,7 @@ package fatec.jpa.eventoapp.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fatec.jpa.eventoapp.dto.GenericErrorResponse;
 import fatec.jpa.eventoapp.exception.BadRequestException;
+import fatec.jpa.eventoapp.exception.NotAuthorizedException;
 import fatec.jpa.eventoapp.exception.NotFoundException;
 
 import javax.servlet.*;
@@ -10,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter("/*")
+@WebFilter(urlPatterns = {"/*"}, filterName = "exception-handler-filter")
 public class ExceptionHandlerFilter implements Filter {
     private ServletContext context;
 
@@ -38,6 +39,10 @@ public class ExceptionHandlerFilter implements Filter {
             GenericErrorResponse genericErrorResponse = new GenericErrorResponse("BAD_REQUEST", e.getMessage());
             message = objectMapper.writeValueAsString(genericErrorResponse);
             res.setStatus(400);
+        } catch (NotAuthorizedException e) {
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse("UNAUTHORIZED", e.getMessage());
+            message = objectMapper.writeValueAsString(genericErrorResponse);
+            res.setStatus(401);
         } catch (Exception e) {
             GenericErrorResponse genericErrorResponse = new GenericErrorResponse("INTERNAL_SERVER_ERROR", e.getMessage());
             message = objectMapper.writeValueAsString(genericErrorResponse);
