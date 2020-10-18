@@ -5,7 +5,6 @@ import fatec.jpa.eventoapp.entity.PersistenceManager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import java.util.Optional;
 
 public class BaseDaoJpa<T extends BaseEntity> implements BaseDao<T> {
     protected EntityManager em;

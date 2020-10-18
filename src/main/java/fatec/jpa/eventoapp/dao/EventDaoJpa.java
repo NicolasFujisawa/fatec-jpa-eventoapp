@@ -23,4 +23,12 @@ public class EventDaoJpa extends BaseDaoJpa<Event> implements BaseDao<Event> {
     public Event findById(Integer id) {
         return this.em.find(Event.class, id);
     }
+
+    public void delete(Event event) {
+        this.em.remove(event);
+    }
+
+    public Event update(Event event) {
+        return save(event);
+    }
 }
