@@ -13,11 +13,14 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@AttributeOverride(name = "id",column = @Column(name = "user_id"))
+@AttributeOverride(name = "id", column = @Column(name = "user_id"))
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User extends BaseEntity {
     @Column(name = "username")
     private String name;
+
+    @Column(name = "password")
+    private String password;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)

@@ -32,7 +32,7 @@ public class App {
 
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
-        User user = userDaoJpa.create("jabinho");
+        User user = userDaoJpa.create("jabinho", "senha");
 
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
 
@@ -49,7 +49,7 @@ public class App {
         user.setEvents(eventList);
         userDaoJpa.save(user);
 
-        userDaoJpa.create("Juquinha", ModeratorLevelEnum.NEWBA);
+        userDaoJpa.create("Juquinha",  "senha", ModeratorLevelEnum.NEWBA);
 
         List<Notice> notices = userDaoJpa.getNoticesFromFutureUserEvents(user);
         for (Notice notice : notices) System.out.printf(notice.toString());

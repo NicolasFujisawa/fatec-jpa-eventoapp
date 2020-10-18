@@ -1,6 +1,7 @@
 create table users (
     user_id integer(11) auto_increment primary key,
     username varchar(255) not null,
+    password varchar(30) not null,
     created_at datetime DEFAULT CURRENT_TIMESTAMP
 );
 

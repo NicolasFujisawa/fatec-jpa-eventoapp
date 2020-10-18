@@ -18,26 +18,39 @@ public class BaseDaoJpa<T extends BaseEntity> implements BaseDao<T> {
     }
 
     @Override
-    public T commit(T dado) {
-        if (dado.getId() == null) {
-            em.persist(dado);
+    public T commit(T data) {
+        if (data.getId() == null) {
+            em.persist(data);
         } else {
-            em.merge(dado);
+            em.merge(data);
         }
-        return dado;
+        return data;
     }
 
     @Override
-    public T save(T dado) {
+    public T save(T data) {
         try {
             em.getTransaction().begin();
-            commit(dado);
+            commit(data);
             em.getTransaction().commit();
-            return dado;
+            return data;
         } catch (PersistenceException e) {
             e.printStackTrace();
             em.getTransaction().rollback();
-            throw new RuntimeException("Erro ao salvar " + dado.getClass().getSimpleName(), e);
+            throw new RuntimeException("Error to save " + data.getClass().getSimpleName(), e);
+        }
+    }
+
+    @Override
+    public void delete(T data) {
+        try {
+            em.getTransaction().begin();
+            em.remove(data);
+            em.getTransaction().commit();
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            em.getTransaction().rollback();
+            throw new RuntimeException("Error to delete " + data.getClass().getSimpleName(), e);
         }
     }
 }

@@ -4,7 +4,6 @@ import fatec.jpa.eventoapp.entity.Moderator;
 import fatec.jpa.eventoapp.entity.Notice;
 import fatec.jpa.eventoapp.entity.User;
 import fatec.jpa.eventoapp.enums.ModeratorLevelEnum;
-import org.dom4j.rule.Mode;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -20,17 +19,19 @@ public class UserDaoJpa extends BaseDaoJpa<User> implements BaseDao<User> {
         super(em);
     }
 
-    public User create(String username) {
+    public User create(String username, String password) {
         User user = User.builder()
                 .name(username)
+                .password(password)
                 .build();
         return save(user);
     }
 
-    public Moderator create(String username, ModeratorLevelEnum level) {
+    public Moderator create(String username, String password, ModeratorLevelEnum level) {
         Moderator mod = new Moderator();
         mod.setName(username);
         mod.setLevel(level);
+        mod.setPassword(password);
         return (Moderator) save(mod);
     }
 
@@ -46,5 +47,18 @@ public class UserDaoJpa extends BaseDaoJpa<User> implements BaseDao<User> {
         query.setParameter("date", new Date(System.currentTimeMillis()));
 
         return query.getResultList();
+    }
+
+    public User findByNameAndPassword(String name, String password) {
+        Query query = em.createQuery("select usr from User usr where usr.name = :username and usr.password = :password", User.class);
+        query.setParameter("username", name);
+        query.setParameter("password", password);
+
+        try {
+            return (User) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println(String.format("[ERROR]: %s", e.getMessage()));
+            return null;
+        }
     }
 }
