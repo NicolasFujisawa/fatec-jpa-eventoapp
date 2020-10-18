@@ -1,5 +1,6 @@
 package fatec.jpa.eventoapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class User extends BaseEntity {
     @Column(name = "username")
     private String name;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "event_participants",
             joinColumns = {@JoinColumn(name = "user_id")},
