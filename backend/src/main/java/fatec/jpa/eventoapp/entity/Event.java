@@ -33,4 +33,8 @@ public class Event extends BaseEntity {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
     private List<Notice> notices;
+
+    @JsonIgnore
+    @Column(name = "enabled")
+    protected boolean enabled;
 }

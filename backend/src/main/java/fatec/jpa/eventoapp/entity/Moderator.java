@@ -17,4 +17,7 @@ import javax.persistence.Table;
 public class Moderator extends User {
     @Column(name = "mod_level", columnDefinition = "integer")
     private ModeratorLevelEnum level;
+
+    @Column(name = "enabled")
+    protected boolean enabled;
 }

@@ -2,7 +2,9 @@ create table users (
     user_id integer(11) auto_increment primary key,
     username varchar(255) not null,
     password varchar(30) not null,
-    created_at datetime DEFAULT CURRENT_TIMESTAMP
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime DEFAULT CURRENT_TIMESTAMP,
+    enabled boolean DEFAULT TRUE
 );
 
 create table events (
@@ -10,7 +12,8 @@ create table events (
     name varchar(255) not null,
     event_date datetime not null,
     event_type integer(1) not null,
-    created_at datetime DEFAULT CURRENT_TIMESTAMP
+    created_at datetime DEFAULT CURRENT_TIMESTAMP,
+    enabled boolean DEFAULT TRUE
 );
 
 create table notices (

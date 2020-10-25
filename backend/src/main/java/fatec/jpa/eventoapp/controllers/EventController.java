@@ -16,17 +16,16 @@ import fatec.jpa.eventoapp.exception.BadRequestException;
 import fatec.jpa.eventoapp.exception.NotFoundException;
 
 @WebServlet("/events")
-public class EventController extends HttpServlet {
+public class  EventController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         String idParam = req.getParameter("id");
-
         if (idParam == null) throw new BadRequestException("Id param not found");
 
         ObjectMapper objectMapper = new ObjectMapper();
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        Event event = eventDaoJpa.findById(Integer.parseInt(idParam));
+        Event event = eventDaoJpa.findById(Integer.parseInt(idParam), true);
 
         if (event == null) throw new NotFoundException("Event not found");
 
@@ -56,7 +55,7 @@ public class EventController extends HttpServlet {
         if (idParam == null) throw new BadRequestException("Id param not found");
 
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        Event event = eventDaoJpa.findById(Integer.parseInt(idParam));
+        Event event = eventDaoJpa.findById(Integer.parseInt(idParam), true);
         eventDaoJpa.delete(event);
         status(204, res);
     }
@@ -72,7 +71,7 @@ public class EventController extends HttpServlet {
         if (idParam == null) throw new BadRequestException("Id param not found");
 
         Event data = objectMapper.readValue(req.getReader(), Event.class);
-        Event event = eventDaoJpa.findById(Integer.parseInt(idParam));
+        Event event = eventDaoJpa.findById(Integer.parseInt(idParam), true);
         event.setName(data.getName());
         event.setEventDate(data.getEventDate());
         eventDaoJpa.update(event);

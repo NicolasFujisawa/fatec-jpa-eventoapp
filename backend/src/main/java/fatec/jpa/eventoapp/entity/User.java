@@ -28,4 +28,7 @@ public class User extends BaseEntity {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "event_id")})
     private List<Event> events;
+
+    @Column(name = "enabled")
+    protected boolean enabled;
 }

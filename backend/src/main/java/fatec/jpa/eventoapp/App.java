@@ -49,9 +49,11 @@ public class App {
         user.setEvents(eventList);
         userDaoJpa.save(user);
 
-        userDaoJpa.create("Juquinha",  "senha", ModeratorLevelEnum.NEWBA);
+        userDaoJpa.create("Juquinha",  "senha", ModeratorLevelEnum.MANAGER);
 
         List<Notice> notices = userDaoJpa.getNoticesFromFutureUserEvents(user);
         for (Notice notice : notices) System.out.printf(notice.toString());
+
+        //eventDaoJpa.delete(publicEvent);
     }
 }
