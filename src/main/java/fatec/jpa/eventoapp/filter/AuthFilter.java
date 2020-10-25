@@ -14,12 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 import java.util.StringTokenizer;
 
-@WebFilter(urlPatterns = {"/*"}, filterName = "auth-filter")
+//@WebFilter(urlPatterns = {"/*"}, filterName = "auth-filter")
 public class AuthFilter implements Filter {
     private ServletContext context;
     private EntityManager manager;
+    private List<String> ignoreRoutes = List.of("/users");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -31,6 +33,11 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
+        System.out.println("Tá passando aqui");
+        if (isExcludedRoute(request.getRequestURI())) {
+            chain.doFilter(req, res);
+            return;
+        }
 
         String authHeader = request.getHeader("Authorization");
 
@@ -115,5 +122,9 @@ public class AuthFilter implements Filter {
         Moderator moderator = moderatorDaoJpa.find(user.getId());
 
         return (moderator != null && moderator.getLevel().equals(ModeratorLevelEnum.MANAGER));
+    }
+
+    private boolean isExcludedRoute(String route) {
+        return ignoreRoutes.contains(route);
     }
 }

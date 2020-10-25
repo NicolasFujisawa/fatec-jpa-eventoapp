@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/*"}, filterName = "exception-handler-filter")
+//@WebFilter(urlPatterns = {"/*"}, filterName = "exception-handler-filter")
 public class ExceptionHandlerFilter implements Filter {
     private ServletContext context;
 
