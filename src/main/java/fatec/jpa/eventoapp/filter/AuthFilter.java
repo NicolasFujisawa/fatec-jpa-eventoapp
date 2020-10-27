@@ -17,7 +17,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.StringTokenizer;
 
-//@WebFilter(urlPatterns = {"/*"}, filterName = "auth-filter")
+@WebFilter(urlPatterns = {"/*"}, filterName = "authFilter")
 public class AuthFilter implements Filter {
     private ServletContext context;
     private EntityManager manager;
@@ -25,7 +25,7 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        context = filterConfig.getServletContext();
+        this.context = filterConfig.getServletContext();
         manager = PersistenceManager.getInstance().getEntityManager();
     }
 
@@ -33,7 +33,7 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        System.out.println("Tá passando aqui");
+
         if (isExcludedRoute(request.getRequestURI())) {
             chain.doFilter(req, res);
             return;
@@ -42,7 +42,7 @@ public class AuthFilter implements Filter {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null) {
-            context.log("[AUTH] Header not found");
+            System.out.println("[AUTH] Header not found");
             unauthorized(response);
             return;
         }
@@ -50,7 +50,7 @@ public class AuthFilter implements Filter {
         String[] credentials = getUserAndPassword(authHeader);
 
         if (credentials == null) {
-            context.log("[AUTH] Invalid user or password");
+            System.out.println("[AUTH] Invalid user or password");
             unauthorized(response);
             return;
         }
@@ -59,7 +59,7 @@ public class AuthFilter implements Filter {
         User user = userDaoJpa.findByNameAndPassword(credentials[0], credentials[1]);
 
         if (user == null) {
-            context.log("[AUTH] User not found");
+            System.out.println("[AUTH] User not found");
             unauthorized(response);
             return;
         }
