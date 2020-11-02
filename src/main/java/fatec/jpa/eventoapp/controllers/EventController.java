@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fatec.jpa.eventoapp.exception.BadRequestException;
@@ -22,10 +23,16 @@ public class EventController extends HttpServlet {
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         String idParam = req.getParameter("id");
 
-        if (idParam == null) throw new BadRequestException("Id param not found");
-
         ObjectMapper objectMapper = new ObjectMapper();
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
+
+        if (idParam == null) {
+            List<Event> events = eventDaoJpa.findAll();
+            String result = objectMapper.writeValueAsString(events);
+            statusAndSend(200, res, result);
+            return;
+        }
+
         Event event = eventDaoJpa.findById(Integer.parseInt(idParam));
 
         if (event == null) throw new NotFoundException("Event not found");

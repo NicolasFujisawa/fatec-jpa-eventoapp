@@ -4,6 +4,7 @@ import fatec.jpa.eventoapp.entity.Event;
 
 import javax.persistence.EntityManager;
 import java.sql.Date;
+import java.util.List;
 
 public class EventDaoJpa extends BaseDaoJpa<Event> implements BaseDao<Event> {
     public EventDaoJpa() {
@@ -22,6 +23,10 @@ public class EventDaoJpa extends BaseDaoJpa<Event> implements BaseDao<Event> {
 
     public Event findById(Integer id) {
         return this.em.find(Event.class, id);
+    }
+
+    public List<Event> findAll() {
+        return em.createQuery("select evt from Event evt").getResultList();
     }
 
     public Event update(Event event) {
