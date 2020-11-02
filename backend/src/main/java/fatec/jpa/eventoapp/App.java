@@ -37,7 +37,9 @@ public class App {
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
 
         PrivateEvent privateEvent = (PrivateEvent) eventDaoJpa.create(new PrivateEvent(), "Privado", new Date(System.currentTimeMillis()));
-        PublicEvent publicEvent = (PublicEvent) eventDaoJpa.create(new PublicEvent(), "Publico", new Date(System.currentTimeMillis()));
+        PublicEvent publicEvent = (PublicEvent) eventDaoJpa.create(new PublicEvent(), "Publico1", new Date(System.currentTimeMillis()));
+        PublicEvent publicEvent1 = (PublicEvent) eventDaoJpa.create(new PublicEvent(), "Publico2", new Date(System.currentTimeMillis()));
+        PublicEvent publicEvent2 = (PublicEvent) eventDaoJpa.create(new PublicEvent(), "Publico3", new Date(System.currentTimeMillis()));
 
         NoticeDaoJpa noticeDaoJpa = new NoticeDaoJpa(manager);
         noticeDaoJpa.create("Primeiro aviso", "Algum aviso", publicEvent);
@@ -45,6 +47,8 @@ public class App {
         List<Event> eventList = new ArrayList<>();
         eventList.add(publicEvent);
         eventList.add(privateEvent);
+        eventList.add(publicEvent1);
+        eventList.add(publicEvent2);
 
         user.setEvents(eventList);
         userDaoJpa.save(user);
@@ -54,6 +58,7 @@ public class App {
         List<Notice> notices = userDaoJpa.getNoticesFromFutureUserEvents(user);
         for (Notice notice : notices) System.out.printf(notice.toString());
 
-        //eventDaoJpa.delete(publicEvent);
+        List<PublicEvent> usrPublicEvents = userDaoJpa.getUserPublicEvents(user);
+        for (PublicEvent event : usrPublicEvents) System.out.printf(event.toString());
     }
 }

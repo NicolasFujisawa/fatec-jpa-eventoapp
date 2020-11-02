@@ -1,6 +1,7 @@
 package fatec.jpa.eventoapp.controllers;
 
 import fatec.jpa.eventoapp.dao.EventDaoJpa;
+import fatec.jpa.eventoapp.dao.UserDaoJpa;
 import fatec.jpa.eventoapp.entity.Event;
 import fatec.jpa.eventoapp.entity.PersistenceManager;
 
@@ -10,26 +11,43 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fatec.jpa.eventoapp.entity.PublicEvent;
+import fatec.jpa.eventoapp.entity.User;
 import fatec.jpa.eventoapp.exception.BadRequestException;
 import fatec.jpa.eventoapp.exception.NotFoundException;
 
 @WebServlet("/events")
-public class  EventController extends HttpServlet {
+public class  EventController extends BaseController implements BaseControllerInterface {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
-        String idParam = req.getParameter("id");
-        if (idParam == null) throw new BadRequestException("Id param not found");
-
         ObjectMapper objectMapper = new ObjectMapper();
-        EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        Event event = eventDaoJpa.findById(Integer.parseInt(idParam), true);
+        String result = "";
 
-        if (event == null) throw new NotFoundException("Event not found");
+        String idParam = req.getParameter("id");
+        String usernameParam = req.getParameter("username");
 
-        String result = objectMapper.writeValueAsString(event);
+        if (idParam != null) {
+            EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
+            Event event = eventDaoJpa.findById(Integer.parseInt(idParam), true);
+
+            if (event == null) throw new NotFoundException("Event not found");
+
+            result = objectMapper.writeValueAsString(event);
+        } else if (usernameParam != null) {
+            UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
+            User user = userDaoJpa.findByName(usernameParam);
+
+            if (user == null) throw new NotFoundException("User not found");
+
+            List<PublicEvent> eventList = userDaoJpa.getUserPublicEvents(user);
+
+            result = objectMapper.writeValueAsString(eventList);
+        }
         statusAndSend(200, res, result);
     }
 
@@ -38,7 +56,7 @@ public class  EventController extends HttpServlet {
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Event event = objectMapper.readValue(req.getReader(), Event.class);
+        PublicEvent event = objectMapper.readValue(req.getReader(), PublicEvent.class);
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
         eventDaoJpa.create(event, event.getName(), event.getEventDate());
         String createdEvent = objectMapper.writeValueAsString(event);
@@ -78,16 +96,5 @@ public class  EventController extends HttpServlet {
 
         String updatedEvent = objectMapper.writeValueAsString(event);
         statusAndSend(201, res, updatedEvent);
-    }
-
-    private void statusAndSend(Integer status, HttpServletResponse res, String data) throws IOException {
-        res.setStatus(status);
-        res.getWriter().print(data);
-        res.getWriter().flush();
-    }
-
-    private void status(Integer status, HttpServletResponse res) throws IOException {
-        res.setStatus(status);
-        res.getWriter().flush();
     }
 }

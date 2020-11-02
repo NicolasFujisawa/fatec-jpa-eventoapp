@@ -1,8 +1,6 @@
 package fatec.jpa.eventoapp.dao;
 
-import fatec.jpa.eventoapp.entity.Moderator;
-import fatec.jpa.eventoapp.entity.Notice;
-import fatec.jpa.eventoapp.entity.User;
+import fatec.jpa.eventoapp.entity.*;
 import fatec.jpa.eventoapp.enums.ModeratorLevelEnum;
 
 import javax.persistence.EntityManager;
@@ -52,10 +50,45 @@ public class UserDaoJpa extends BaseDaoJpa<User> implements BaseDao<User> {
         return query.getResultList();
     }
 
+    public List<PublicEvent> getUserPublicEvents(User user) {
+        String queryText = "select eve from User usr \n" +
+            "join usr.events eve \n" +
+            "where usr = :user \n" +
+            "and eve.enabled = true \n" +
+            "and TYPE(eve) = :type";
+
+        Query query = em.createQuery(queryText);
+        query.setParameter("user", user);
+        query.setParameter("type", PublicEvent.class);
+
+        try {
+            return query.getResultList();
+        } catch (Exception e) {
+            System.out.println(String.format("[ERROR]: %s", e.getMessage()));
+            return null;
+        }
+    }
+
     public User findByNameAndPassword(String name, String password) {
         Query query = em.createQuery("select usr from User usr where usr.enabled = true and usr.name = :username and usr.password = :password", User.class);
         query.setParameter("username", name);
         query.setParameter("password", password);
+
+        try {
+            return (User) query.getSingleResult();
+        } catch (Exception e) {
+            System.out.println(String.format("[ERROR]: %s", e.getMessage()));
+            return null;
+        }
+    }
+
+    public User findByName(String name) {
+        String queryText = "select usr from User usr \n" +
+                "where usr.enabled = true \n" +
+                "and usr.name = :username";
+
+        Query query = em.createQuery(queryText, User.class);
+        query.setParameter("username", name);
 
         try {
             return (User) query.getSingleResult();
