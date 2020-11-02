@@ -34,9 +34,10 @@ export default new Vuex.Store({
     authStatus: (state) => state.status,
   },
   actions: {
-    login({ commit }, user) {
-      if (user) commit('auth_success', user);
-      else commit('auth_error');
+    login({ commit }, response) {
+      if (response.status === 200) {
+        commit('auth_success', response.data);
+      } else commit('auth_error');
     },
     logout({ commit }) {
       commit('logout');

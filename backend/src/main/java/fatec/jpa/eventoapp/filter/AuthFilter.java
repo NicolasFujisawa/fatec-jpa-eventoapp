@@ -62,6 +62,8 @@ public class AuthFilter implements Filter {
             return;
         }
 
+        req.setAttribute("user", user);
+
         chain.doFilter(req, res);
     }
 

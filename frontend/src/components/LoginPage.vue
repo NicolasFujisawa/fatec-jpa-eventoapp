@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import Api from '../services/api';
+
 export default {
   name: 'Login',
 
@@ -24,10 +26,11 @@ export default {
   },
 
   methods: {
-    login() {
+    async login() {
       const { name, password } = this;
+      const response = await Api.login({ name, password });
 
-      this.$store.dispatch('login', { name, password });
+      this.$store.dispatch('login', response);
       this.$router.push('/');
     },
   },

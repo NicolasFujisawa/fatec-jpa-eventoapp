@@ -10,6 +10,11 @@ export default {
 
     return axiosInstance.get(`/events?username=${user.name}`, { auth });
   },
+  async login(credentials) {
+    const auth = this.genAuth(credentials);
+
+    return axiosInstance.get('/users', { auth });
+  },
   genAuth(user) {
     return { username: user.name, password: user.password };
   },
