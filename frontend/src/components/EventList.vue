@@ -1,6 +1,6 @@
 <template>
-<div class='Events'>
-  <div v-for='(event, key) in events' :key='key' class='EventList'>
+<div class='EventList'>
+  <div v-for='(event, key) in events' :key='key' class='Event'>
         <EventCard :event='event'/>
   </div>
 </div>
@@ -19,3 +19,11 @@ export default {
   },
 };
 </script>
+
+<style>
+.EventList {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+</style>

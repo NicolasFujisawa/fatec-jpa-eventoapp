@@ -4,8 +4,9 @@
       <router-link to='/'>Home</router-link> |
       <a v-on:click='logout'>Logout</a>
     </div>
-    <img alt='Vue logo' src='../assets/logo.png'>
-    <EventList :events='events.data'/>
+    <div class='event-list'>
+      <EventList :events='events.data'/>
+    </div>
   </div>
 </template>
 
@@ -61,5 +62,11 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.event-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

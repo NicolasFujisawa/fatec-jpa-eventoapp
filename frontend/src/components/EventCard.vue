@@ -1,8 +1,9 @@
 <template>
   <div class="Card">
-    <span class="Name">{{ event.name }}</span>
-    <br>
-    <span class="Date">{{ Date(event.eventDate * 1000) }}</span>
+    <v-card elevation="3" outlined>
+      <v-card-title>{{ event.name }}</v-card-title>
+      <v-card-text>{{ Date(event.eventDate * 1000) }}</v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -14,3 +15,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.Card {
+  flex: 0 0 auto;
+}
+</style>
