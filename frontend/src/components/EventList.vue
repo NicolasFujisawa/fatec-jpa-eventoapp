@@ -1,11 +1,11 @@
 <template>
-<b-container class='EventList'>
-  <b-row>
+  <b-row
+    align-h='center'
+  >
     <b-col v-for='(event, key) in events' :key='key' class='col-4'>
           <EventCard @reload='reloadEvents' :event='event' class='mb-5'/>
     </b-col>
   </b-row>
-</b-container>
 </template>
 
 <script>

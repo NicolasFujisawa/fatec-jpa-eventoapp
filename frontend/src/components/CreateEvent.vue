@@ -1,4 +1,5 @@
 <template>
+<b-modal id='create-event' hide-footer hide-header>
   <b-card title="CreateEventCard">
     <b-form class="EventForm" @submit.prevent="createEvent">
       <div class="mt-5">
@@ -16,6 +17,7 @@
       </div>
     </b-form>
   </b-card>
+</b-modal>
 </template>
 
 <script>

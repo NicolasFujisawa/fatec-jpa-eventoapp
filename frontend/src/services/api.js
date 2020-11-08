@@ -10,16 +10,25 @@ export default {
 
     return axiosInstance.get(`/events?username=${user.name}`, { auth });
   },
+
   async login(credentials) {
     const auth = this.genAuth(credentials);
 
     return axiosInstance.get('/users', { auth });
   },
+
   async createEvent({ name, eventDate }, user) {
     const auth = this.genAuth(user);
 
     return axiosInstance.post('/events', { name, eventDate }, { auth });
   },
+
+  async putEvent(id, { name, eventDate }, user) {
+    const auth = this.genAuth(user);
+
+    return axiosInstance.put(`/events?id=${id}`, { name, eventDate }, { auth });
+  },
+
   async deleteEvent(id, user) {
     const auth = this.genAuth(user);
 

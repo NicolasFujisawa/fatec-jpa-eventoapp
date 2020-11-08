@@ -1,20 +1,17 @@
 <template>
-  <b-container class='home'>
-    <div id='nav'>
-      <router-link to='/'>Home</router-link> |
-      <a v-on:click='logout'>Logout</a>
-    </div>
-    <b-row class='event-list'>
-      <EventList :events='events.data' @reload='loadEvents'/>
-    </b-row>
-    <b-row>
+  <b-container class='home' align-h="center">
+    <b-row class='mb-3 mt-3'>
       <b-col>
-        <b-button v-b-modal.create-event variant="outline-primary">Criar novo evento</b-button>
-        <b-modal id="create-event" hide-footer>
-          <CreateEvent @reload='reloadOnEventCreate'></CreateEvent>
-        </b-modal>
+        <b-button v-b-modal.create-event variant='outline-primary'>
+          Criar novo evento
+        </b-button>
+      </b-col>
+      <b-col>
+        <b-button @click='logout' variant="danger">Logout</b-button>
       </b-col>
     </b-row>
+    <EventList :events='events.data' @reload='loadEvents'/>
+    <CreateEvent :method="Create" @reload='reloadOnEventCreate'></CreateEvent>
   </b-container>
 </template>
 
@@ -48,6 +45,7 @@ export default {
       this.$store.dispatch('logout');
       this.$router.push('/login');
     },
+
     async loadEvents() {
       try {
         this.events = await Api.getEventsByUserName(Store.getters.users);
@@ -55,6 +53,7 @@ export default {
         console.log(e);
       }
     },
+
     async reloadOnEventCreate() {
       this.$bvModal.hide('create-event');
       await this.loadEvents();
@@ -62,25 +61,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-  cursor: pointer;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-.event-list {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>
