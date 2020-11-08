@@ -5,11 +5,10 @@
       <div class='mt-5'>
         <b-form-input v-model='name' placeholder='Nome do Evento' autofocus>
         </b-form-input>
-        <b-form-input
+        <b-form-datepicker
           v-model='eventDate'
-          type='date'
           class='mt-3'>
-        </b-form-input>
+        </b-form-datepicker>
       </div>
       <div class='mt-5'>
         <b-button type='submit' variant='outline-primary'>OK</b-button>
@@ -74,7 +73,7 @@ export default {
 
     updateInputDefaults() {
       this.name = this.event.name;
-      this.eventDate = new Date(this.event.eventDate).toLocaleDateString('en-US');
+      this.eventDate = new Date(this.event.eventDate).toISOString().slice(0, 10);
     },
   },
 };

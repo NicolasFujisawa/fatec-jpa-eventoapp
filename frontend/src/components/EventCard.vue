@@ -1,7 +1,7 @@
 <template>
   <b-card elevation="3" outlined>
     <b-card-title>{{ event.name }}</b-card-title>
-    <b-card-text>{{ new Date(event.eventDate).toLocaleDateString('en-US') }}</b-card-text>
+    <b-card-text>{{ new Date(this.event.eventDate).toISOString().slice(0, 10) }}</b-card-text>
     <b-row>
       <b-col>
         <b-button variant="primary" @click='editEvent'>Edit</b-button>
