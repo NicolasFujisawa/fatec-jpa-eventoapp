@@ -6,19 +6,19 @@
       align-h="center"
     >
       <b-col cols="6">
-        <LoginPage></LoginPage>
+        <LoginCard></LoginCard>
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import LoginPage from '../components/LoginPage.vue';
+import LoginCard from '../components/LoginCard.vue';
 
 export default {
   name: 'Login',
   components: {
-    LoginPage,
+    LoginCard,
   },
 };
 </script>

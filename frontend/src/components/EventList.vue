@@ -3,7 +3,7 @@
     align-h='center'
   >
     <b-col v-for='(event, key) in events' :key='key' class='col-4'>
-          <EventCard @reload='reloadEvents' :event='event' class='mb-5'/>
+          <EventCard @reload='reloadEvents' @edit='editEvent' :event='event' class='mb-5'/>
     </b-col>
   </b-row>
 </template>
@@ -16,21 +16,19 @@ export default {
   components: {
     EventCard,
   },
+
   props: {
     events: Array,
   },
+
   methods: {
     reloadEvents() {
       this.$emit('reload');
     },
+
+    editEvent(event) {
+      this.$emit('edit', event);
+    },
   },
 };
 </script>
-
-<style>
-.EventList {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-</style>

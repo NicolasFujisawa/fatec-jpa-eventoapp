@@ -14,12 +14,15 @@ export default new Vuex.Store({
   },
   mutations: {
     auth_success(state, user) {
+      localStorage.setItem('user', JSON.stringify(user));
       state.status = 'success';
       state.user = user;
     },
+
     auth_error(state) {
       state.status = 'error';
     },
+
     logout(state) {
       state.status = '';
       state.user = {
@@ -27,6 +30,7 @@ export default new Vuex.Store({
         name: null,
         password: null,
       };
+      localStorage.clear();
     },
   },
   getters: {
@@ -41,6 +45,14 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit('logout');
+    },
+    initialise({ commit }) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user) {
+        commit('auth_success', user);
+      } else {
+        commit('auth_error');
+      }
     },
   },
 });
