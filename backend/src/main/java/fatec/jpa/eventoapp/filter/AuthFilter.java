@@ -51,6 +51,8 @@ public class AuthFilter implements Filter {
         UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
         User user = userDaoJpa.findByNameAndPassword(credentials[0], credentials[1]);
 
+        req.setAttribute("user", user);
+
         if (user == null) {
             context.log("[AUTH] User not found");
             unauthorized(response);
@@ -62,7 +64,6 @@ public class AuthFilter implements Filter {
             return;
         }
 
-        req.setAttribute("user", user);
 
         chain.doFilter(req, res);
     }

@@ -56,11 +56,21 @@ public class  EventController extends BaseController implements BaseControllerIn
         EntityManager manager = PersistenceManager.getInstance().getEntityManager();
         ObjectMapper objectMapper = new ObjectMapper();
 
+        User user = (User) req.getAttribute("user");
+
         PublicEvent event = objectMapper.readValue(req.getReader(), PublicEvent.class);
         EventDaoJpa eventDaoJpa = new EventDaoJpa(manager);
-        eventDaoJpa.create(event, event.getName(), event.getEventDate());
+        Event newEvent = eventDaoJpa.create(event, event.getName(), event.getEventDate());
         String createdEvent = objectMapper.writeValueAsString(event);
         String location = req.getServerName() + ":" + req.getServerPort() + req.getContextPath() + "/events?id=" + event.getId();
+
+        List<Event> newEventList = user.getEvents();
+        newEventList.add(newEvent);
+        user.setEvents(newEventList);
+
+        UserDaoJpa userDaoJpa = new UserDaoJpa(manager);
+        userDaoJpa.save(user);
+
         res.addHeader("Location", location);
         statusAndSend(201, res, createdEvent);
     }

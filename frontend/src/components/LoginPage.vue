@@ -1,15 +1,22 @@
 <template>
- <div>
-   <form class="login" @submit.prevent="login">
-     <h1>Sign in</h1>
-     <label>Username</label>
-     <input required v-model="name" placeholder="Name"/>
-     <label>Password</label>
-     <input required v-model="password" type="password" placeholder="Password"/>
-     <hr/>
-     <button type="submit">Login</button>
-   </form>
- </div>
+  <b-card title="Entrar">
+    <b-form class="login" @submit.prevent="login">
+      <div class="mt-5">
+        <b-form-input v-model="name" placeholder="E-mail" autofocus>
+        </b-form-input>
+        <b-form-input
+          v-model="password"
+          type="password"
+          placeholder="Password"
+          autofocus
+          class="mt-3">
+        </b-form-input>
+      </div>
+      <div class="mt-5">
+        <b-button type="submit" variant="outline-primary">Entrar</b-button>
+      </div>
+    </b-form>
+  </b-card>
 </template>
 
 <script>

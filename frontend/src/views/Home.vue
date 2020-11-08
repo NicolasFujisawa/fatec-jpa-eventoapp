@@ -1,18 +1,27 @@
 <template>
-  <div class='home'>
+  <b-container class='home'>
     <div id='nav'>
       <router-link to='/'>Home</router-link> |
       <a v-on:click='logout'>Logout</a>
     </div>
-    <div class='event-list'>
-      <EventList :events='events.data'/>
-    </div>
-  </div>
+    <b-row class='event-list'>
+      <EventList :events='events.data' @reload='loadEvents'/>
+    </b-row>
+    <b-row>
+      <b-col>
+        <b-button v-b-modal.create-event variant="outline-primary">Criar novo evento</b-button>
+        <b-modal id="create-event" hide-footer>
+          <CreateEvent @reload='reloadOnEventCreate'></CreateEvent>
+        </b-modal>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
 // @ is an alias to /src
 import EventList from '@/components/EventList.vue';
+import CreateEvent from '@/components/CreateEvent.vue';
 import Api from '@/services/api';
 import Store from '@/store/index';
 
@@ -21,6 +30,7 @@ export default {
 
   components: {
     EventList,
+    CreateEvent,
   },
 
   async mounted() {
@@ -44,6 +54,10 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    async reloadOnEventCreate() {
+      this.$bvModal.hide('create-event');
+      await this.loadEvents();
     },
   },
 };
